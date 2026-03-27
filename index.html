@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design System — Guia Priorizado 2026</title>
+<style>
+/* ═══════════════════════════════════════════════
+   TOKENS ORIGINAIS DO PROJETO
+   (edite aqui para propagar em todo o sistema)
+═══════════════════════════════════════════════ */
+:root {
+  /* Cores */
+  --blue:         #005BAC;
+  --blue-pale:    #e8f2fb;
+  --orange:       #F47920;
+  --orange-light: #fff3e8;
+  --gray:         #f5f6fa;
+  --gray-mid:     #dde2ec;
+  --text:         #1a1f36;
+  --text-muted:   #6b7280;
+
+  /* Cores derivadas (usadas inline no projeto) */
+  --blue-border:   #c0d9f0;
+  --orange-border: #f5c99a;
+  --green:         #16a34a;
+
+  /* Elevação */
+  --shadow-sm:  0 2px 8px rgba(0,0,0,.2);
+  --shadow:     0 2px 12px rgba(0,0,0,.08);
+  --shadow-lg:  0 4px 18px rgba(0,0,0,.11);
+
+  /* Raios */
+  --radius-sm:  6px;
+  --radius:     12px;
+  --radius-lg:  16px;
+  --radius-pill:20px;
+
+  /* Tipografia */
+  --font: 'Segoe UI', system-ui, sans-serif;
+  --font-mono: monospace;
+}
+
+/* ─── Reset & Base ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--gray);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* ─── Layout do Design System ─── */
+.ds-header {
+  background: var(--blue);
+  color: #fff;
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.ds-header .logo {
+  width: 44px; height: 44px;
+  background: #fff;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 900; color: var(--blue);
+}
+.ds-header h1 { font-size: 1.1rem; font-weight: 700; }
+.ds-header p  { font-size: .76rem; opacity: .75; margin-top: 2px; }
+.ds-header .version {
+  margin-left: auto;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: .74rem;
+  font-weight: 600;
+}
+
+.ds-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: calc(100vh - 76px);
+}
+
+/* ─── Sidebar nav ─── */
+.ds-nav {
+  background: #fff;
+  border-right: 1px solid var(--gray-mid);
+  padding: 24px 0;
+  position: sticky;
+  top: 76px;
+  height: calc(100vh - 76px);
+  overflow-y: auto;
+}
+.ds-nav-section {
+  padding: 0 20px;
+  margin-bottom: 6px;
+}
+.ds-nav-section-label {
+  font-size: .64rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--text-muted);
+  margin: 16px 0 6px;
+}
+.ds-nav a {
+  display: block;
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-size: .83rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all .15s;
+}
+.ds-nav a:hover { background: var(--gray); color: var(--text); }
+.ds-nav a.active { background: var(--blue-pale); color: var(--blue); font-weight: 600; }
+
+/* ─── Main content ─── */
+.ds-main {
+  padding: 40px 48px;
+  max-width: 960px;
+}
+
+.ds-section {
+  margin-bottom: 64px;
+  scroll-margin-top: 96px;
+}
+
+.ds-section-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 4px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--blue);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ds-section-desc {
+  font-size: .85rem;
+  color: var(--text-muted);
+  margin: 10px 0 24px;
+  line-height: 1.65;
+}
+
+.ds-subsection { margin-bottom: 36px; }
+.ds-subsection-title {
+  font-size: .78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ds-subsection-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gray-mid);
+}
+
+/* ─── Token display ─── */
+.token-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+.token-card {
+  background: #fff;
+  border: 1px solid var(--gray-mid);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.token-swatch {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .72rem;
+  font-weight: 700;
+}
+.token-info { padding: 10px 12px; }
+.token-name { font-size: .76rem; font-weight: 700; color: var(--text); font-family: monospace; }
+.token-value { font-size: .72rem; color: var(--text-muted); margin-top: 2px; font-family: monospace; }
+
+/* ─── Type scale ─── */
+.type-row {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 12px 16px;
+  background: #fff;
+  border: 1px solid var(--gray-mid);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.type-meta { min-width: 130px; }
+.type-label { font-size: .7rem; font-weight: 700; color: var(--text-muted); font-family: monospace; }
+.type-value { font-size: .65rem; color: var(--text-muted); }
+.type-sample { color: var(--text); }
+
+/* ─── Component demos ─── */
+.demo-box {
+  background: #fff;
+  border: 1px solid var(--gray-mid);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 12px;
+}
+.demo-box.gray { background: var(--gray); }
+.demo-label {
+  font-size: .67rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+/* ─── Code block ─── */
+.code-block {
+  background: #1a1f36;
+  color: #e2e8f0;
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-family: monospace;
+  font-size: .78rem;
+  line-height: 1.7;
+  margin-top: 12px;
+  overflow-x: auto;
+  white-space: pre;
+}
+.code-block .c-key   { color: #93c5fd; }
+.code-block .c-val   { color: #86efac; }
+.code-block .c-cm    { color: #64748b; }
+
+/* ─── Usage note ─── */
+.usage-note {
+  background: var(--orange-light);
+  border: 1px solid var(--orange-border);
+  border-left: 4px solid var(--orange);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: .82rem;
+  color: #92400e;
+  margin: 12px 0;
+  line-height: 1.55;
+}
+.do-note {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-left: 4px solid #16a34a;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: .82rem;
+  color: #166534;
+  margin: 12px 0;
+  line-height: 1.55;
+}
+
+/* ════════════════════════════════════════
+   COMPONENTES DO PROJETO (cópia fiel)
+════════════════════════════════════════ */
+
+/* Header */
+.c-header {
+  background: var(--blue); color: #fff;
+  padding: 18px 32px; display: flex; align-items: center; gap: 16px;
+  box-shadow: var(--shadow-sm); border-radius: var(--radius);
+}
+.c-header .logo {
+  width: 42px; height: 42px; background: #fff; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 900; color: var(--blue); flex-shrink: 0;
+}
+.c-header h1 { font-size: 1.15rem; font-weight: 700; }
+.c-header p  { font-size: .78rem; opacity: .85; margin-top: 2px; }
+
+/* Tabs */
+.c-tabs-nav {
+  background: var(--blue);
+  display: flex; padding: 12px 24px; gap: 8px; overflow-x: auto;
+  border-radius: var(--radius);
+}
+.c-tab-btn {
+  padding: 9px 18px; font-size: .85rem; font-weight: 600;
+  color: rgba(255,255,255,.7);
+  border: 1.5px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.1);
+  border-radius: 8px; cursor: pointer; white-space: nowrap;
+  transition: all .18s; display: flex; align-items: center; gap: 7px;
+  font-family: var(--font);
+}
+.c-tab-btn:hover  { background: rgba(255,255,255,.2); color: #fff; border-color: rgba(255,255,255,.45); }
+.c-tab-btn.active { background: #fff; border-color: #fff; color: var(--blue); }
+
+/* Filtros */
+.c-filtros {
+  background: #fff; padding: 20px 32px;
+  border: 1px solid var(--gray-mid); border-radius: var(--radius);
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end;
+}
+.c-filtro-group { display: flex; flex-direction: column; gap: 6px; min-width: 150px; }
+.c-filtro-group label {
+  font-size: .7rem; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.c-filtro-group select {
+  padding: 9px 32px 9px 12px; border: 1.5px solid var(--gray-mid);
+  border-radius: 8px; font-size: .88rem; color: var(--text); background: #fff;
+  cursor: pointer; appearance: none; font-family: var(--font);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+  transition: border-color .2s;
+}
+.c-filtro-group select:focus { outline: none; border-color: var(--blue); }
+.c-filtro-group select:disabled { opacity: .38; cursor: not-allowed; }
+
+/* Seg toggle */
+.c-seg-toggle { display: flex; gap: 8px; }
+.c-seg-btn {
+  padding: 8px 18px; border: 1.5px solid var(--gray-mid); border-radius: 20px;
+  background: #fff; font-size: .83rem; font-weight: 600; color: var(--text-muted);
+  cursor: pointer; transition: all .18s; font-family: var(--font);
+}
+.c-seg-btn:hover { border-color: var(--blue); color: var(--blue); }
+.c-seg-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+/* Aula card */
+.c-aula-card {
+  background: #fff; border-radius: var(--radius);
+  box-shadow: var(--shadow); border: 1px solid var(--gray-mid);
+  overflow: hidden; transition: box-shadow .18s;
+}
+.c-aula-card:hover { box-shadow: var(--shadow-lg); }
+.c-aula-card-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px 18px; cursor: pointer; user-select: none;
+}
+.c-aula-numero {
+  width: 38px; height: 38px; background: var(--blue); color: #fff;
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; font-weight: 700; flex-shrink: 0;
+}
+.c-aula-titulo { flex: 1; font-weight: 600; font-size: .93rem; line-height: 1.4; }
+.c-expand-icon { color: var(--text-muted); font-size: .9rem; transition: transform .2s; }
+.c-aula-card.open .c-expand-icon { transform: rotate(180deg); }
+.c-aula-card-body { display: none; padding: 0 18px 18px; border-top: 1px solid var(--gray-mid); }
+.c-aula-card.open .c-aula-card-body { display: block; }
+
+/* Campo (dentro do card) */
+.c-aula-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+.c-campo { background: var(--gray); border-radius: 8px; padding: 12px 14px; }
+.c-campo.full { grid-column: 1 / -1; }
+.c-campo-label {
+  font-size: .68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--text-muted); margin-bottom: 7px;
+}
+.c-campo-valor { font-size: .87rem; line-height: 1.65; color: var(--text); }
+.c-campo-valor ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+.c-campo-valor ul li::before { content: "›"; color: var(--orange); font-weight: 700; margin-right: 6px; }
+
+/* Badges & chips */
+.c-badge {
+  background: var(--blue-pale); color: var(--blue);
+  border-radius: 20px; padding: 5px 14px;
+  font-size: .76rem; font-weight: 700; white-space: nowrap;
+  display: inline-block;
+}
+.c-hab-chip {
+  background: var(--blue-pale); color: var(--blue);
+  border-radius: 5px; padding: 4px 9px;
+  font-size: .78rem; font-weight: 700; font-family: monospace; white-space: nowrap;
+  cursor: pointer; transition: all .15s; display: inline-block;
+}
+.c-hab-chip:hover { background: var(--blue); color: #fff; }
+.c-hab-chip-lg {
+  background: var(--blue-pale); color: var(--blue);
+  border: 1px solid var(--blue-border);
+  border-radius: 6px; padding: 4px 10px;
+  font-size: .79rem; font-weight: 700; font-family: monospace; display: inline-block;
+}
+.c-ae-badge {
+  display: inline-block;
+  background: var(--orange-light); color: var(--orange);
+  border: 1px solid var(--orange-border); border-radius: 6px;
+  padding: 5px 10px; font-size: .82rem; font-weight: 600; line-height: 1.45;
+}
+.c-ae-badge.nav { cursor: pointer; transition: all .15s; }
+.c-ae-badge.nav:hover { background: var(--orange); color: #fff; border-color: var(--orange); }
+.c-seg-tag {
+  display: inline-block; border-radius: 4px; padding: 2px 8px;
+  font-size: .72rem; font-weight: 700;
+}
+.c-seg-tag.af { background: var(--blue-pale); color: var(--blue); }
+.c-seg-tag.em { background: var(--orange-light); color: var(--orange); }
+.c-bim-chip {
+  background: var(--orange-light); color: var(--orange);
+  border: 1px solid var(--orange-border); border-radius: 4px;
+  padding: 2px 8px; font-size: .72rem; font-weight: 600; display: inline-block;
+}
+.c-semana-chip {
+  background: var(--blue-pale); color: var(--blue);
+  border: 1px solid var(--blue-border); border-radius: 4px;
+  padding: 2px 8px; font-size: .72rem; font-weight: 600; display: inline-block;
+}
+
+/* Semana header */
+.c-semana-header { display: flex; align-items: center; gap: 12px; margin: 20px 0 10px; }
+.c-semana-label {
+  font-size: .72rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .09em; color: var(--blue);
+  background: var(--blue-pale); border-radius: 6px;
+  padding: 4px 13px; white-space: nowrap;
+}
+.c-semana-divider { flex: 1; height: 1px; background: var(--gray-mid); }
+.c-semana-meta { font-size: .73rem; color: var(--text-muted); white-space: nowrap; }
+
+/* Placeholder */
+.c-placeholder { text-align: center; padding: 60px 24px; color: var(--text-muted); }
+.c-placeholder .icon { font-size: 2.8rem; margin-bottom: 14px; }
+.c-placeholder h2 { font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.c-placeholder p { font-size: .87rem; }
+
+/* Hero */
+.c-comecar-hero {
+  background: linear-gradient(135deg, var(--blue) 0%, #0078d7 100%);
+  border-radius: 16px; padding: 32px 36px; color: #fff;
+}
+.c-comecar-hero h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; }
+.c-comecar-hero p  { font-size: .93rem; opacity: .85; line-height: 1.65; }
+
+/* Estrutura card */
+.c-estrutura-card {
+  background: #fff; border: 1px solid var(--gray-mid); border-radius: 12px;
+  padding: 20px 18px; display: flex; flex-direction: column; gap: 10px;
+  border-top: 4px solid var(--blue);
+}
+.c-estrutura-card.laranja { border-top-color: var(--orange); }
+.c-estrutura-card.verde   { border-top-color: var(--green); }
+.c-estrutura-icon  { font-size: 1.6rem; }
+.c-estrutura-titulo { font-size: .92rem; font-weight: 700; }
+.c-estrutura-desc  { font-size: .82rem; color: var(--text-muted); line-height: 1.6; }
+
+/* Passo card */
+.c-passo-card {
+  background: #fff; border: 1px solid var(--gray-mid);
+  border-radius: 12px; padding: 18px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.c-passo-num {
+  width: 30px; height: 30px; background: var(--blue); color: #fff;
+  border-radius: 50%; font-size: .83rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+.c-passo-titulo { font-size: .9rem; font-weight: 700; }
+.c-passo-desc   { font-size: .82rem; color: var(--text-muted); line-height: 1.55; }
+
+/* Grupo cognitivo card */
+.c-grupo-card {
+  background: #fff; border: 1px solid var(--gray-mid);
+  border-radius: 12px; padding: 18px;
+}
+.c-grupo-num {
+  display: inline-block; border-radius: 6px; padding: 3px 11px;
+  font-size: .78rem; font-weight: 800; margin-bottom: 10px; color: #fff;
+}
+.g1 .c-grupo-num { background: var(--blue); }
+.g2 .c-grupo-num { background: var(--orange); }
+.g3 .c-grupo-num { background: var(--green); }
+.c-grupo-titulo  { font-size: .9rem; font-weight: 700; margin-bottom: 6px; }
+.c-grupo-verbos  { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.c-grupo-verbo {
+  background: var(--gray); border-radius: 4px;
+  padding: 2px 8px; font-size: .76rem; color: var(--text-muted);
+}
+
+/* Link card */
+.c-link-card {
+  background: #fff; border: 1px solid var(--gray-mid); border-radius: 10px;
+  padding: 14px 16px; display: flex; align-items: flex-start; gap: 12px;
+  text-decoration: none; color: var(--text);
+  transition: box-shadow .18s, border-color .18s;
+}
+.c-link-card:hover { box-shadow: var(--shadow); border-color: var(--blue); }
+.c-link-icon  { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+.c-link-titulo { font-size: .87rem; font-weight: 600; line-height: 1.4; }
+.c-link-desc  { font-size: .77rem; color: var(--text-muted); margin-top: 2px; }
+
+/* Tabela resumo */
+.c-table-wrap { background: #fff; border: 1px solid var(--gray-mid); border-radius: 12px; overflow: hidden; }
+.c-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.c-table thead tr { background: var(--blue); color: #fff; }
+.c-table th { padding: 11px 16px; text-align: left; font-size: .73rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.c-table td { padding: 10px 16px; border-bottom: 1px solid var(--gray-mid); vertical-align: middle; }
+.c-table tbody tr:last-child td { border-bottom: none; }
+.c-table tbody tr:hover { background: var(--gray); }
+
+/* Hab box (selecionável) */
+.c-hab-box {
+  background: #fff; border: 2px solid var(--gray-mid);
+  border-radius: 10px; padding: 10px 16px;
+  cursor: pointer; transition: all .18s;
+  display: inline-flex; flex-direction: column; align-items: flex-start; gap: 4px;
+}
+.c-hab-box:hover { border-color: var(--blue); background: var(--blue-pale); }
+.c-hab-box.selected { border-color: var(--blue); background: var(--blue); color: #fff; }
+.c-hab-code { font-family: monospace; font-size: .9rem; font-weight: 800; }
+.c-hab-box-meta { font-size: .7rem; opacity: .65; }
+
+/* Secção header com divider */
+.c-section-h {
+  font-size: .8rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .09em; color: var(--text-muted);
+  margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+.c-section-h::after { content: ''; flex: 1; height: 1px; background: var(--gray-mid); }
+
+/* Grid helpers */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+.flex-wrap { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+/* Spacer for demo boxes */
+.spacer { height: 16px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<header class="ds-header">
+  <div class="logo">CP</div>
+  <div>
+    <h1>Design System — Guia Priorizado 2026</h1>
+    <p>Tokens, componentes e padrões visuais do projeto</p>
+  </div>
+  <span class="version">v1.0 · Mar 2026</span>
+</header>
+
+<div class="ds-layout">
+
+  <!-- ══════════════ SIDEBAR ══════════════ -->
+  <nav class="ds-nav">
+    <div class="ds-nav-section">
+      <div class="ds-nav-section-label">Fundação</div>
+      <a href="#cores">Cores</a>
+      <a href="#tipografia">Tipografia</a>
+      <a href="#espacamento">Espaçamento & Raios</a>
+      <a href="#sombras">Sombras</a>
+    </div>
+    <div class="ds-nav-section">
+      <div class="ds-nav-section-label">Componentes</div>
+      <a href="#header">Header</a>
+      <a href="#tabs">Tabs</a>
+      <a href="#filtros">Filtros</a>
+      <a href="#cards">Cards</a>
+      <a href="#badges">Badges & Chips</a>
+      <a href="#tabelas">Tabelas</a>
+      <a href="#placeholder">Placeholder</a>
+    </div>
+    <div class="ds-nav-section">
+      <div class="ds-nav-section-label">Padrões</div>
+      <a href="#layout">Layout de Telas</a>
+      <a href="#grids">Grids</a>
+      <a href="#checklist">Checklist de Qualidade</a>
+    </div>
+  </nav>
+
+  <!-- ══════════════ CONTEÚDO ══════════════ -->
+  <main class="ds-main">
+
+    <!-- ──────────── CORES ──────────── -->
+    <section class="ds-section" id="cores">
+      <h2 class="ds-section-title">🎨 Cores</h2>
+      <p class="ds-section-desc">Todas as cores são definidas como CSS custom properties na <code>:root</code>. Edite apenas os valores aqui — eles propagam por todo o projeto automaticamente.</p>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Paleta Principal</div>
+        <div class="token-grid">
+          <div class="token-card">
+            <div class="token-swatch" style="background:#005BAC;color:#fff">Aa</div>
+            <div class="token-info">
+              <div class="token-name">--blue</div>
+              <div class="token-value">#005BAC</div>
+            </div>
+          </div>
+          <div class="token-card">
+            <div class="token-swatch" style="background:#e8f2fb;color:#005BAC">Aa</div>
+            <div class="token-info">
+              <div class="token-name">--blue-pale</div>
+              <div class="token-value">#e8f2fb</div>
+            </div>
+          </div>
+          <div class="token-card">
+            <div class="token-swatch" style="background:#c0d9f0;color:#005BAC">Aa</div>
+            <div class="token-info">
+              <div class="token-name">--blue-border</div>
+              <div class="token-value">#c0d9f0</div>
+            </div>
+          </div>
+          <div class="token-card">
+            <div class="token-swatch" style="background:#F47920;color:#fff">Aa</div>
+            <div class="token-info">
+              <div class="token-name">--orange</div>
+              <div class="token-value">#F47920</div>
+            </div>
+          </div>
+          <div class="token-card">
+            <div class="token-swatch" style="background:#fff3e8;color:#F47920">Aa</div>
+            <div class="token-info">
+              <div class="token-name">--orange-light</div>
+              <div class="token-value">#fff3e8</div>
+            </div>
+          </div>
+          <div class="token-card">
+            <div class="token-swatch" style="background:#f5c99a;color:#92400e">Aa</div>
+            <div class="token-info">
+              <div class="token-name">--orange-border</div>
+              <div class="token-value">#f5c99a</div>
+            </div>
+          </div>
+          <div class="token-card">
+            <div class="token-swatch" style="background:#16a34a;color:#fff">Aa</div>
+            <div class="token-info">
+              <div class="token-name">--green</div>
+              <div class="token-value">#16a34a</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Neutros</div>
+        <div class="token-grid">
+          <div class="token-card">
+            <div class="token-swatch" style="background:#1a1f36;color:#fff">Aa</div>
+            <div class="token-info">
+              <div class="token-name">--text</div>
+              <div class="token-value">#1a1f36</div>
+            </div>
+          </div>
+          <div class="token-card">
+            <div class="token-swatch" style="background:#6b7280;color:#fff">Aa</div>
+            <div class="token-info">
+              <div class="token-name">--text-muted</div>
+              <div class="token-value">#6b7280</div>
+            </div>
+          </div>
+          <div class="token-card">
+            <div class="token-swatch" style="background:#f5f6fa;color:#1a1f36;border:1px solid #dde2ec">Aa</div>
+            <div class="token-info">
+              <div class="token-name">--gray</div>
+              <div class="token-value">#f5f6fa — Fundo de página</div>
+            </div>
+          </div>
+          <div class="token-card">
+            <div class="token-swatch" style="background:#dde2ec;color:#1a1f36">Aa</div>
+            <div class="token-info">
+              <div class="token-name">--gray-mid</div>
+              <div class="token-value">#dde2ec — Bordas</div>
+            </div>
+          </div>
+          <div class="token-card">
+            <div class="token-swatch" style="background:#ffffff;color:#1a1f36;border:1px solid #dde2ec">Aa</div>
+            <div class="token-info">
+              <div class="token-name">#fff</div>
+              <div class="token-value">Fundo de cards</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="usage-note">
+        <strong>Uso das cores:</strong> Azul é a cor primária (ações, destaque, headers). Laranja é secundário (alertas, AE badges, marcadores de lista). Verde aparece apenas nos Grupos Cognitivos. Nunca use uma cor fora do token — edite o token na <code>:root</code> se precisar ajustar.
+      </div>
+    </section>
+
+    <!-- ──────────── TIPOGRAFIA ──────────── -->
+    <section class="ds-section" id="tipografia">
+      <h2 class="ds-section-title">📝 Tipografia</h2>
+      <p class="ds-section-desc">Fonte: <strong>Segoe UI → system-ui → sans-serif</strong>. Monospace (<code>font-family: monospace</code>) é reservado exclusivamente para códigos de habilidade (ex: EF06LP01).</p>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Escala de tamanhos</div>
+
+        <div class="type-row">
+          <div class="type-meta"><div class="type-label">1.4rem / 800</div><div class="type-value">Hero title</div></div>
+          <div class="type-sample" style="font-size:1.4rem;font-weight:800">Guia de Aprendizagem 2026</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-label">1.15rem / 700</div><div class="type-value">Page title / Header</div></div>
+          <div class="type-sample" style="font-size:1.15rem;font-weight:700">Guia do Currículo Priorizado</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-label">1.05rem / 600</div><div class="type-value">Modal / Placeholder title</div></div>
+          <div class="type-sample" style="font-size:1.05rem;font-weight:600">Selecione os filtros acima</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-label">.93rem / 600</div><div class="type-value">Card title (aula)</div></div>
+          <div class="type-sample" style="font-size:.93rem;font-weight:600">Título da aula — introdução ao tema</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-label">.9rem / 700</div><div class="type-value">Subtítulo de seção</div></div>
+          <div class="type-sample" style="font-size:.9rem;font-weight:700">Grupos Cognitivos</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-label">.87rem / 400</div><div class="type-value">Body text</div></div>
+          <div class="type-sample" style="font-size:.87rem">Texto de conteúdo padrão, campo de valor e descrições longas.</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-label">.82rem / 400</div><div class="type-value">Descrição secundária</div></div>
+          <div class="type-sample" style="font-size:.82rem;color:#6b7280">Descrição de card, passo, link</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-label">.78rem / 700</div><div class="type-value">Chip / Badge</div></div>
+          <div class="type-sample" style="font-size:.78rem;font-weight:700">EF06LP01</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-label">.76rem / 700</div><div class="type-value">Badge count</div></div>
+          <div class="type-sample" style="font-size:.76rem;font-weight:700">12 habilidades</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-label">.72rem / 700 / UPPER</div><div class="type-value">Label de campo / semana</div></div>
+          <div class="type-sample" style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em">Semana 1</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-label">.7rem / 700 / UPPER</div><div class="type-value">Label de filtro</div></div>
+          <div class="type-sample" style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#6b7280">Componente Curricular</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-label">.68rem / 700 / UPPER</div><div class="type-value">Campo label (card body)</div></div>
+          <div class="type-sample" style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6b7280">Objetivos de Aprendizagem</div>
+        </div>
+      </div>
+
+      <div class="do-note">
+        <strong>Regra:</strong> Labels de campo/seção são sempre UPPERCASE + letter-spacing + font-weight 700-800. Textos de conteúdo são 400-600. Códigos de habilidade são sempre monospace.
+      </div>
+    </section>
+
+    <!-- ──────────── ESPAÇAMENTO ──────────── -->
+    <section class="ds-section" id="espacamento">
+      <h2 class="ds-section-title">📐 Espaçamento & Raios</h2>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Border Radius</div>
+        <div class="flex-wrap">
+          <div style="background:#fff;border:1px solid #dde2ec;border-radius:4px;padding:12px 20px;font-size:.8rem"><code>4px</code> — micro chips, seg-tags</div>
+          <div style="background:#fff;border:1px solid #dde2ec;border-radius:6px;padding:12px 20px;font-size:.8rem"><code>6px / --radius-sm</code> — semana label, grupo-num</div>
+          <div style="background:#fff;border:1px solid #dde2ec;border-radius:8px;padding:12px 20px;font-size:.8rem"><code>8px</code> — inputs, botões, campos internos</div>
+          <div style="background:#fff;border:1px solid #dde2ec;border-radius:10px;padding:12px 20px;font-size:.8rem"><code>10px</code> — link cards, hab-box</div>
+          <div style="background:#fff;border:1px solid #dde2ec;border-radius:12px;padding:12px 20px;font-size:.8rem"><code>12px / --radius</code> — aula cards, estrutura cards</div>
+          <div style="background:#fff;border:1px solid #dde2ec;border-radius:16px;padding:12px 20px;font-size:.8rem"><code>16px / --radius-lg</code> — hero banner</div>
+          <div style="background:#fff;border:1px solid #dde2ec;border-radius:20px;padding:12px 20px;font-size:.8rem"><code>20px / --radius-pill</code> — seg toggle buttons</div>
+          <div style="background:#fff;border:1px solid #dde2ec;border-radius:50%;padding:12px 20px;font-size:.8rem"><code>50%</code> — passo-num (número circular)</div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Espaçamento interno padrão</div>
+        <div class="demo-box">
+          <table style="width:100%;font-size:.83rem;border-collapse:collapse">
+            <thead><tr style="border-bottom:1px solid var(--gray-mid)">
+              <th style="padding:8px 12px;text-align:left;color:var(--text-muted);font-size:.7rem;text-transform:uppercase">Contexto</th>
+              <th style="padding:8px 12px;text-align:left;color:var(--text-muted);font-size:.7rem;text-transform:uppercase">Padding</th>
+            </tr></thead>
+            <tbody>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Header</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">18px 32px</td></tr>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Filtros bar</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">20px 32px</td></tr>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Content area</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">28px 24px (max-width 1100px)</td></tr>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Aula card header</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">13px 18px</td></tr>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Aula card body</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">0 18px 18px</td></tr>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Campo interno</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">12px 14px</td></tr>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Hero banner</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">32px 36px</td></tr>
+              <tr><td style="padding:8px 12px">Tabs nav</td><td style="padding:8px 12px">12px 24px</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────── SOMBRAS ──────────── -->
+    <section class="ds-section" id="sombras">
+      <h2 class="ds-section-title">🌫️ Sombras</h2>
+      <div class="flex-wrap" style="gap:20px">
+        <div style="background:#fff;border:1px solid var(--gray-mid);border-radius:12px;padding:20px 28px;box-shadow:0 2px 8px rgba(0,0,0,.2);font-size:.82rem"><code>--shadow-sm</code><br><span style="color:var(--text-muted)">Header, elementos elevados</span></div>
+        <div style="background:#fff;border:1px solid var(--gray-mid);border-radius:12px;padding:20px 28px;box-shadow:0 2px 12px rgba(0,0,0,.08);font-size:.82rem"><code>--shadow</code><br><span style="color:var(--text-muted)">Cards padrão (resting)</span></div>
+        <div style="background:#fff;border:1px solid var(--gray-mid);border-radius:12px;padding:20px 28px;box-shadow:0 4px 18px rgba(0,0,0,.11);font-size:.82rem"><code>--shadow-lg</code><br><span style="color:var(--text-muted)">Cards em hover</span></div>
+      </div>
+    </section>
+
+    <!-- ──────────── HEADER ──────────── -->
+    <section class="ds-section" id="header">
+      <h2 class="ds-section-title">🏠 Header</h2>
+      <p class="ds-section-desc">Fundo azul primário, sempre sticky no topo. Logo com fundo branco + inicial em azul.</p>
+      <div class="demo-box gray">
+        <div class="c-header">
+          <div class="logo">CP</div>
+          <div>
+            <h1>Guia do Currículo Priorizado 2026</h1>
+            <p>SEDUC SP</p>
+          </div>
+        </div>
+      </div>
+      <div class="code-block"><span class="c-cm">/* HTML */</span>
+&lt;header class="header"&gt;
+  &lt;div class="logo"&gt;CP&lt;/div&gt;
+  &lt;div&gt;
+    &lt;h1&gt;Título do Guia&lt;/h1&gt;
+    &lt;p&gt;Subtítulo&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/header&gt;</div>
+    </section>
+
+    <!-- ──────────── TABS ──────────── -->
+    <section class="ds-section" id="tabs">
+      <h2 class="ds-section-title">📑 Tabs</h2>
+      <p class="ds-section-desc">Fundo azul. Tab inativa = borda e fundo translúcido. Tab ativa = fundo branco + texto azul.</p>
+      <div class="demo-box gray">
+        <div class="c-tabs-nav">
+          <button class="c-tab-btn active">Para Começar</button>
+          <button class="c-tab-btn">Aprendizagem Essencial</button>
+          <button class="c-tab-btn">Escopo-Sequência</button>
+          <button class="c-tab-btn">Habilidades</button>
+          <button class="c-tab-btn">Matriz Prova Paulista</button>
+        </div>
+      </div>
+      <div class="usage-note">
+        Tabs ficam logo abaixo do header. Em telas novas, adicionar tab no final desta nav (nunca criar página nova separada).
+      </div>
+    </section>
+
+    <!-- ──────────── FILTROS ──────────── -->
+    <section class="ds-section" id="filtros">
+      <h2 class="ds-section-title">🔽 Filtros</h2>
+      <p class="ds-section-desc">Barra branca com borda inferior. Usa selects com ícone de chevron customizado. Botões de segmento são pill-shaped.</p>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Select filters</div>
+        <div class="demo-box gray">
+          <div class="c-filtros">
+            <div class="c-filtro-group">
+              <label>Ano / Série</label>
+              <select><option>6º ano — Anos Finais</option></select>
+            </div>
+            <div class="c-filtro-group">
+              <label>Componente</label>
+              <select><option>Língua Portuguesa</option></select>
+            </div>
+            <div class="c-filtro-group">
+              <label>Bimestre</label>
+              <select><option>1º Bimestre</option></select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Segmento toggle</div>
+        <div class="demo-box">
+          <div class="c-seg-toggle">
+            <button class="c-seg-btn active">Anos Finais</button>
+            <button class="c-seg-btn">Ensino Médio</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────── CARDS ──────────── -->
+    <section class="ds-section" id="cards">
+      <h2 class="ds-section-title">🃏 Cards</h2>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Aula card (expansível)</div>
+        <div class="demo-box gray">
+          <div class="c-semana-header">
+            <span class="c-semana-label">Semana 1</span>
+            <div class="c-semana-divider"></div>
+            <span class="c-semana-meta">Aulas 1–2 · 1º Bimestre</span>
+          </div>
+          <div class="c-aula-card open" style="max-width:600px">
+            <div class="c-aula-card-header">
+              <div class="c-aula-numero">1</div>
+              <div class="c-aula-titulo">Introdução aos gêneros textuais: conto e crônica</div>
+              <span class="c-expand-icon">▲</span>
+            </div>
+            <div class="c-aula-card-body">
+              <div class="c-aula-grid">
+                <div class="c-campo">
+                  <div class="c-campo-label">Conteúdo</div>
+                  <div class="c-campo-valor">Gêneros textuais narrativos: conto e crônica</div>
+                </div>
+                <div class="c-campo">
+                  <div class="c-campo-label">Habilidades</div>
+                  <div class="c-campo-valor">
+                    <div class="flex-wrap">
+                      <span class="c-hab-chip-lg">EF06LP01</span>
+                      <span class="c-hab-chip-lg">EF06LP02</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="c-campo full">
+                  <div class="c-campo-label">Objetivos de Aprendizagem</div>
+                  <div class="c-campo-valor">
+                    <ul>
+                      <li>Identificar características estruturais do conto e da crônica</li>
+                      <li>Comparar os dois gêneros em relação ao contexto de produção</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="c-campo full">
+                  <div class="c-campo-label">Aprendizagem Essencial</div>
+                  <div class="c-campo-valor">
+                    <span class="c-ae-badge">Identificar e comparar características dos gêneros narrativos conto e crônica</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Estrutura card (3 variantes de cor)</div>
+        <div class="demo-box gray">
+          <div class="grid-3">
+            <div class="c-estrutura-card">
+              <div class="c-estrutura-icon">🎯</div>
+              <div class="c-estrutura-titulo">Aprendizagens Essenciais</div>
+              <div class="c-estrutura-desc">Habilidades priorizadas do Currículo Paulista.</div>
+            </div>
+            <div class="c-estrutura-card laranja">
+              <div class="c-estrutura-icon">📅</div>
+              <div class="c-estrutura-titulo">Escopo-Sequência</div>
+              <div class="c-estrutura-desc">Planejamento bimestral aula-a-aula.</div>
+            </div>
+            <div class="c-estrutura-card verde">
+              <div class="c-estrutura-icon">📊</div>
+              <div class="c-estrutura-titulo">Matriz da Prova Paulista</div>
+              <div class="c-estrutura-desc">Descritores organizados por grupos cognitivos.</div>
+            </div>
+          </div>
+        </div>
+        <div class="usage-note">Borda superior colorida: <strong>azul</strong> = padrão, <strong>laranja</strong> = add class <code>.laranja</code>, <strong>verde</strong> = add class <code>.verde</code>.</div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Passo card</div>
+        <div class="demo-box gray">
+          <div class="grid-auto">
+            <div class="c-passo-card">
+              <div class="c-passo-num">1</div>
+              <div class="c-passo-titulo">Escolha a aba</div>
+              <div class="c-passo-desc">Use as abas no topo para navegar entre as seções.</div>
+            </div>
+            <div class="c-passo-card">
+              <div class="c-passo-num">2</div>
+              <div class="c-passo-titulo">Selecione o segmento</div>
+              <div class="c-passo-desc">Escolha entre Anos Finais ou Ensino Médio.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Grupo cognitivo card</div>
+        <div class="demo-box gray">
+          <div class="grid-3">
+            <div class="c-grupo-card g1">
+              <div class="c-grupo-num">Grupo 1</div>
+              <div class="c-grupo-titulo">Reconhecimento e Identificação</div>
+              <div class="c-grupo-verbos">
+                <span class="c-grupo-verbo">Identificar</span>
+                <span class="c-grupo-verbo">Reconhecer</span>
+              </div>
+            </div>
+            <div class="c-grupo-card g2">
+              <div class="c-grupo-num">Grupo 2</div>
+              <div class="c-grupo-titulo">Aplicação e Comparação</div>
+              <div class="c-grupo-verbos">
+                <span class="c-grupo-verbo">Aplicar</span>
+                <span class="c-grupo-verbo">Comparar</span>
+              </div>
+            </div>
+            <div class="c-grupo-card g3">
+              <div class="c-grupo-num">Grupo 3</div>
+              <div class="c-grupo-titulo">Resolução de Problemas</div>
+              <div class="c-grupo-verbos">
+                <span class="c-grupo-verbo">Resolver</span>
+                <span class="c-grupo-verbo">Analisar</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Link card</div>
+        <div class="demo-box gray">
+          <div class="grid-auto">
+            <a class="c-link-card" href="#">
+              <div class="c-link-icon">📄</div>
+              <div>
+                <div class="c-link-titulo">Currículo Paulista — Ensino Fundamental</div>
+                <div class="c-link-desc">Documento oficial da SEDUC-SP</div>
+              </div>
+            </a>
+            <a class="c-link-card" href="#">
+              <div class="c-link-icon">🗂️</div>
+              <div>
+                <div class="c-link-titulo">Acervo do Repositório</div>
+                <div class="c-link-desc">Materiais digitais de apoio</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Hero banner</div>
+        <div class="demo-box gray">
+          <div class="c-comecar-hero">
+            <h2>Guia de Aprendizagem 2026</h2>
+            <p>Professor(a) e gestor(a), este Guia reúne as <strong>Aprendizagens Essenciais</strong>, o <strong>Escopo-Sequência</strong> e a <strong>Matriz da Prova Paulista</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────── BADGES & CHIPS ──────────── -->
+    <section class="ds-section" id="badges">
+      <h2 class="ds-section-title">🏷️ Badges & Chips</h2>
+      <p class="ds-section-desc">Todos os chips/badges são display inline-block. Chips de habilidade usam <code>font-family: monospace</code>.</p>
+
+      <div class="demo-box">
+        <div class="demo-label">Todos os chips em contexto</div>
+        <div class="flex-wrap" style="margin-bottom:16px">
+          <span class="c-badge">12 habilidades</span>
+          <span class="c-hab-chip">EF06LP01</span>
+          <span class="c-hab-chip-lg">EF07MA03</span>
+          <span class="c-ae-badge">Identificar características dos gêneros narrativos</span>
+          <span class="c-ae-badge nav">AE navegável ↗</span>
+        </div>
+        <div class="flex-wrap" style="margin-bottom:16px">
+          <span class="c-seg-tag af">Anos Finais</span>
+          <span class="c-seg-tag em">Ensino Médio</span>
+          <span class="c-bim-chip">1º Bim</span>
+          <span class="c-semana-chip">Sem 3</span>
+        </div>
+
+        <div class="spacer"></div>
+        <div class="demo-label">Hab box (selecionável)</div>
+        <div class="flex-wrap">
+          <div class="c-hab-box">
+            <div class="c-hab-code">EF06LP01</div>
+            <div class="c-hab-box-meta">3 aulas</div>
+          </div>
+          <div class="c-hab-box selected">
+            <div class="c-hab-code">EF06LP02</div>
+            <div class="c-hab-box-meta">2 aulas</div>
+          </div>
+          <div class="c-hab-box">
+            <div class="c-hab-code">EF06LP03</div>
+            <div class="c-hab-box-meta">4 aulas</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Tabela de referência rápida</div>
+        <div class="c-table-wrap">
+          <table class="c-table">
+            <thead><tr>
+              <th>Classe</th><th>Cor</th><th>Uso</th>
+            </tr></thead>
+            <tbody>
+              <tr><td><code>.badge</code></td><td>Azul pale</td><td>Contagem (ex: "12 habilidades")</td></tr>
+              <tr><td><code>.hab-chip</code></td><td>Azul pale / hover: azul sólido</td><td>Código de habilidade pequeno, clicável no header do card</td></tr>
+              <tr><td><code>.hab-chip-lg</code></td><td>Azul pale + borda</td><td>Código de habilidade no body do card</td></tr>
+              <tr><td><code>.ae-badge</code></td><td>Laranja light</td><td>Texto de Aprendizagem Essencial (não navegável)</td></tr>
+              <tr><td><code>.ae-badge.nav</code></td><td>Laranja light / hover: laranja sólido</td><td>AE clicável (navega para aba AE)</td></tr>
+              <tr><td><code>.seg-tag.af</code></td><td>Azul pale</td><td>Tag de segmento "Anos Finais"</td></tr>
+              <tr><td><code>.seg-tag.em</code></td><td>Laranja light</td><td>Tag de segmento "Ensino Médio"</td></tr>
+              <tr><td><code>.bim-chip</code></td><td>Laranja light + borda</td><td>Identificador de bimestre em listas</td></tr>
+              <tr><td><code>.semana-chip</code></td><td>Azul pale + borda</td><td>Identificador de semana em listas</td></tr>
+              <tr><td><code>.hab-box</code></td><td>Branco / selected: azul sólido</td><td>Botão de seleção de habilidade (aba Habilidades)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────── TABELAS ──────────── -->
+    <section class="ds-section" id="tabelas">
+      <h2 class="ds-section-title">📊 Tabelas</h2>
+      <p class="ds-section-desc">Thead com fundo azul sólido, texto branco. Rows com hover em <code>--gray</code>. Sempre dentro de um wrapper com <code>border-radius: 12px; overflow: hidden</code>.</p>
+      <div class="demo-box gray">
+        <div class="c-table-wrap">
+          <table class="c-table">
+            <thead><tr>
+              <th>Segmento</th><th>Componente</th><th>Ano/Série</th><th>Total de Aulas</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td><span class="c-seg-tag af">Anos Finais</span></td>
+                <td>Língua Portuguesa</td>
+                <td>6º Ano</td>
+                <td>56</td>
+              </tr>
+              <tr>
+                <td><span class="c-seg-tag em">Ensino Médio</span></td>
+                <td>Matemática</td>
+                <td>1ª Série</td>
+                <td>56</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────── PLACEHOLDER ──────────── -->
+    <section class="ds-section" id="placeholder">
+      <h2 class="ds-section-title">💬 Placeholder</h2>
+      <p class="ds-section-desc">Exibido quando nenhum filtro foi selecionado. Emoji grande + título + instrução em muted.</p>
+      <div class="demo-box gray">
+        <div class="c-placeholder">
+          <div class="icon">📚</div>
+          <h2>Selecione os filtros acima para visualizar</h2>
+          <p>Escolha segmento, componente, ano/série e bimestre.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────── LAYOUT ──────────── -->
+    <section class="ds-section" id="layout">
+      <h2 class="ds-section-title">🗺️ Layout de Telas</h2>
+      <p class="ds-section-desc">Toda tela nova segue este fluxo vertical:</p>
+
+      <div class="demo-box">
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:.83rem">
+          <div style="background:var(--blue);color:#fff;border-radius:6px;padding:10px 16px;font-weight:700">1. Header (sticky)</div>
+          <div style="background:var(--blue);color:rgba(255,255,255,.8);border-radius:6px;padding:10px 16px">2. Tabs nav</div>
+          <div style="background:#fff;border:1px solid var(--gray-mid);border-radius:6px;padding:10px 16px">3. Filtros bar (se necessário)</div>
+          <div style="background:var(--gray);border:1px dashed var(--gray-mid);border-radius:6px;padding:10px 16px;color:var(--text-muted)">4. Content area (max-width: 1100px · margin: 0 auto · padding: 28px 24px)</div>
+        </div>
+      </div>
+
+      <div class="do-note">
+        <strong>max-width do conteúdo:</strong> sempre 1100px com <code>margin: 0 auto</code>. Isso garante legibilidade em telas largas.
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Section header com divider</div>
+        <div class="demo-box">
+          <h3 class="c-section-h">O que você encontra neste Guia</h3>
+          <h3 class="c-section-h">Grupos Cognitivos</h3>
+        </div>
+        <div class="code-block"><span class="c-cm">/* Pattern: section header com linha divisória */</span>
+<span class="c-key">.secao-titulo</span> {
+  <span class="c-val">font-size: .8rem; font-weight: 800;</span>
+  <span class="c-val">text-transform: uppercase; letter-spacing: .09em;</span>
+  <span class="c-val">color: var(--text-muted);</span>
+  <span class="c-val">display: flex; align-items: center; gap: 8px;</span>
+}
+<span class="c-key">.secao-titulo::after</span> {
+  <span class="c-val">content: ''; flex: 1; height: 1px; background: var(--gray-mid);</span>
+}</div>
+      </div>
+    </section>
+
+    <!-- ──────────── GRIDS ──────────── -->
+    <section class="ds-section" id="grids">
+      <h2 class="ds-section-title">⬜ Grids</h2>
+      <p class="ds-section-desc">Padrões de grid usados no projeto:</p>
+
+      <div class="demo-box">
+        <table style="width:100%;font-size:.83rem;border-collapse:collapse">
+          <thead><tr style="border-bottom:1px solid var(--gray-mid)">
+            <th style="padding:8px 12px;text-align:left;color:var(--text-muted);font-size:.7rem;text-transform:uppercase">Contexto</th>
+            <th style="padding:8px 12px;text-align:left;color:var(--text-muted);font-size:.7rem;text-transform:uppercase">CSS</th>
+          </tr></thead>
+          <tbody>
+            <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Campos dentro de aula card</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)"><code>grid-template-columns: 1fr 1fr; gap: 12px</code></td></tr>
+            <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Estrutura cards / passo cards</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)"><code>repeat(auto-fit, minmax(200px, 1fr)); gap: 14px</code></td></tr>
+            <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Grupos cognitivos (3 colunas fixas)</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)"><code>repeat(3, 1fr); gap: 14px</code></td></tr>
+            <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Link cards</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)"><code>repeat(auto-fit, minmax(220px, 1fr)); gap: 12px</code></td></tr>
+            <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Hab boxes (filtro de habilidades)</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)"><code>flex; flex-wrap: wrap; gap: 10px</code></td></tr>
+            <tr><td style="padding:8px 12px">Cards de aula</td><td style="padding:8px 12px"><code>flex-direction: column; gap: 10px</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="usage-note">
+        Breakpoint mobile: <code>@media (max-width: 600px)</code> — grids de 2 colunas colapsam para 1. O grid de 3 colunas (grupos cognitivos) tem breakpoint em <code>640px</code>.
+      </div>
+    </section>
+
+    <!-- ──────────── CHECKLIST ──────────── -->
+    <section class="ds-section" id="checklist">
+      <h2 class="ds-section-title">✅ Checklist de Qualidade</h2>
+      <p class="ds-section-desc">Use antes de publicar qualquer tela nova:</p>
+
+      <div class="demo-box">
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:.85rem">
+          <label style="display:flex;gap:10px;align-items:flex-start"><input type="checkbox"> Todas as cores usam <code>var(--nome)</code>, sem hardcode de hex fora da <code>:root</code></label>
+          <label style="display:flex;gap:10px;align-items:flex-start"><input type="checkbox"> Labels de campo/seção estão em UPPERCASE + letter-spacing + peso 700–800</label>
+          <label style="display:flex;gap:10px;align-items:flex-start"><input type="checkbox"> Códigos de habilidade usam <code>font-family: monospace</code></label>
+          <label style="display:flex;gap:10px;align-items:flex-start"><input type="checkbox"> Cards de conteúdo têm <code>border-radius: var(--radius)</code> (12px) e <code>box-shadow: var(--shadow)</code></label>
+          <label style="display:flex;gap:10px;align-items:flex-start"><input type="checkbox"> Hover em cards usa <code>--shadow-lg</code> com <code>transition: box-shadow .18s</code></label>
+          <label style="display:flex;gap:10px;align-items:flex-start"><input type="checkbox"> Área de conteúdo tem <code>max-width: 1100px; margin: 0 auto; padding: 28px 24px</code></label>
+          <label style="display:flex;gap:10px;align-items:flex-start"><input type="checkbox"> AE badges usam fundo laranja (<code>--orange-light</code>), habilidades usam fundo azul (<code>--blue-pale</code>)</label>
+          <label style="display:flex;gap:10px;align-items:flex-start"><input type="checkbox"> Tela nova tem placeholder quando não há conteúdo selecionado</label>
+          <label style="display:flex;gap:10px;align-items:flex-start"><input type="checkbox"> Elementos interativos têm <code>transition: all .18s</code> ou específico</label>
+          <label style="display:flex;gap:10px;align-items:flex-start"><input type="checkbox"> Testou em mobile (600px) — grids colapsam corretamente</label>
+          <label style="display:flex;gap:10px;align-items:flex-start"><input type="checkbox"> Fonte base é <code>'Segoe UI', system-ui, sans-serif</code> (não importou fonte externa)</label>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+// Highlight nav item on scroll
+const sections = document.querySelectorAll('.ds-section');
+const navLinks = document.querySelectorAll('.ds-nav a');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.ds-nav a[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
