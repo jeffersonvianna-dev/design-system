@@ -12,7 +12,7 @@
 :root {
   /* Cores */
   --blue:         #005BAC;
-  --blue-pale:    #e8f2fb;
+  --blue-pale:    #e8f0f9;
   --orange:       #F47920;
   --orange-light: #fff3e8;
   --gray:         #f5f6fa;
@@ -277,7 +277,7 @@ body {
 /* Header */
 .c-header {
   background: var(--blue); color: #fff;
-  padding: 18px 32px; display: flex; align-items: center; gap: 16px;
+  padding: 16px 24px; display: flex; align-items: center; gap: 16px;
   box-shadow: var(--shadow-sm); border-radius: var(--radius);
 }
 .c-header .logo {
@@ -308,7 +308,7 @@ body {
 
 /* Filtros */
 .c-filtros {
-  background: #fff; padding: 20px 32px;
+  background: #fff; padding: 18px 24px;
   border: 1px solid var(--gray-mid); border-radius: var(--radius);
   display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end;
 }
@@ -536,6 +536,29 @@ body {
 
 /* Spacer for demo boxes */
 .spacer { height: 16px; }
+
+/* Botões */
+.c-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 20px; border-radius: 8px; border: 1.5px solid transparent;
+  font-size: .88rem; font-weight: 600; font-family: var(--font);
+  cursor: pointer; transition: all .18s; white-space: nowrap; line-height: 1.2;
+}
+.c-btn-primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+.c-btn-primary:hover { background: #004a8f; border-color: #004a8f; }
+.c-btn-ghost { background: transparent; color: var(--blue); border-color: var(--blue); }
+.c-btn-ghost:hover { background: var(--blue-pale); }
+.c-btn-danger { background: transparent; color: #dc2626; border-color: #fca5a5; }
+.c-btn-danger:hover { background: #fef2f2; border-color: #dc2626; }
+.c-btn-sm { padding: 6px 14px; font-size: .82rem; }
+.c-btn-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: none; padding: 6px 8px; border-radius: 7px;
+  cursor: pointer; font-size: .95rem; transition: background .15s; line-height: 1;
+  color: var(--text-muted);
+}
+.c-btn-icon:hover { background: var(--blue-pale); color: var(--blue); }
+.c-btn-icon.danger:hover { background: #fee2e2; color: #dc2626; }
 </style>
 </head>
 <body>
@@ -566,6 +589,7 @@ body {
       <a href="#header">Header</a>
       <a href="#tabs">Tabs</a>
       <a href="#filtros">Filtros</a>
+      <a href="#botoes">Botões</a>
       <a href="#cards">Cards</a>
       <a href="#badges">Badges & Chips</a>
       <a href="#tabelas">Tabelas</a>
@@ -778,8 +802,8 @@ body {
               <th style="padding:8px 12px;text-align:left;color:var(--text-muted);font-size:.7rem;text-transform:uppercase">Padding</th>
             </tr></thead>
             <tbody>
-              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Header</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">18px 32px</td></tr>
-              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Filtros bar</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">20px 32px</td></tr>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Header</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">16px 24px</td></tr>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Filtros bar</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">18px 24px</td></tr>
               <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Content area</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">28px 24px (max-width 1100px)</td></tr>
               <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Aula card header</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">13px 18px</td></tr>
               <tr><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">Aula card body</td><td style="padding:8px 12px;border-bottom:1px solid var(--gray-mid)">0 18px 18px</td></tr>
@@ -1101,6 +1125,58 @@ body {
           </table>
         </div>
       </div>
+    </section>
+
+    <!-- ──────────── BOTÕES ──────────── -->
+    <section class="ds-section" id="botoes">
+      <h2 class="ds-section-title">🔘 Botões</h2>
+      <p class="ds-section-desc">Três variantes principais: <strong>primary</strong> (ação principal da tela), <strong>ghost</strong> (ação secundária/cancelar) e <strong>danger</strong> (excluir). Ícone para ações de tabela. Modifier <code>.c-btn-sm</code> para versões compactas.</p>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Variantes</div>
+        <div class="demo-box">
+          <div class="flex-wrap">
+            <button class="c-btn c-btn-primary">+ Nova Aula</button>
+            <button class="c-btn c-btn-ghost">Cancelar</button>
+            <button class="c-btn c-btn-danger">Excluir</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Tamanho pequeno (.c-btn-sm)</div>
+        <div class="demo-box">
+          <div class="flex-wrap">
+            <button class="c-btn c-btn-primary c-btn-sm">Salvar</button>
+            <button class="c-btn c-btn-ghost c-btn-sm">Cancelar</button>
+            <button class="c-btn c-btn-danger c-btn-sm">Excluir</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection-title">Ícone — ações de tabela</div>
+        <div class="demo-box">
+          <div class="flex-wrap">
+            <button class="c-btn-icon" title="Editar">✏️</button>
+            <button class="c-btn-icon danger" title="Excluir">🗑</button>
+          </div>
+        </div>
+        <div class="usage-note">Use sempre em pares (editar + excluir) na coluna "Ações" da tabela. Não adicione texto.</div>
+      </div>
+
+      <div class="code-block"><span class="c-cm">/* Primary — ação principal */</span>
+<span class="c-key">&lt;button</span> class=<span class="c-val">"c-btn c-btn-primary"</span><span class="c-key">&gt;</span>+ Nova Aula<span class="c-key">&lt;/button&gt;</span>
+
+<span class="c-cm">/* Ghost — cancelar / ação secundária */</span>
+<span class="c-key">&lt;button</span> class=<span class="c-val">"c-btn c-btn-ghost"</span><span class="c-key">&gt;</span>Cancelar<span class="c-key">&lt;/button&gt;</span>
+
+<span class="c-cm">/* Danger — excluir */</span>
+<span class="c-key">&lt;button</span> class=<span class="c-val">"c-btn c-btn-danger"</span><span class="c-key">&gt;</span>Excluir<span class="c-key">&lt;/button&gt;</span>
+
+<span class="c-cm">/* Ícone — coluna Ações da tabela */</span>
+<span class="c-key">&lt;button</span> class=<span class="c-val">"c-btn-icon"</span><span class="c-key">&gt;</span>✏️<span class="c-key">&lt;/button&gt;</span>
+<span class="c-key">&lt;button</span> class=<span class="c-val">"c-btn-icon danger"</span><span class="c-key">&gt;</span>🗑<span class="c-key">&lt;/button&gt;</span></div>
     </section>
 
     <!-- ──────────── TABELAS ──────────── -->
