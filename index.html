@@ -829,7 +829,7 @@ body {
     <!-- ──────────── HEADER ──────────── -->
     <section class="ds-section" id="header">
       <h2 class="ds-section-title">🏠 Header</h2>
-      <p class="ds-section-desc">Fundo azul primário, sempre sticky no topo. Logo com fundo branco + inicial em azul.</p>
+      <p class="ds-section-desc">Fundo azul primário full-width, sempre sticky no topo. Conteúdo interno contido em <code>.header-inner</code> com max-width de 1200 px para alinhar com o corpo da página.</p>
       <div class="demo-box gray">
         <div class="c-header">
           <div class="logo">CP</div>
@@ -839,14 +839,32 @@ body {
           </div>
         </div>
       </div>
-      <div class="code-block"><span class="c-cm">/* HTML */</span>
+      <div class="code-block"><span class="c-cm">/* CSS */</span>
+.header {
+  background: var(--blue);
+  box-shadow: var(--shadow-sm);
+  position: sticky; top: 0; z-index: 10;
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 16px 24px;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 16px;
+}
+
+<span class="c-cm">/* HTML */</span>
 &lt;header class="header"&gt;
-  &lt;div class="logo"&gt;CP&lt;/div&gt;
-  &lt;div&gt;
-    &lt;h1&gt;Título do Guia&lt;/h1&gt;
-    &lt;p&gt;Subtítulo&lt;/p&gt;
+  &lt;div class="header-inner"&gt;
+    &lt;div class="logo"&gt;CP&lt;/div&gt;
+    &lt;div&gt;
+      &lt;h1&gt;Título do Guia&lt;/h1&gt;
+      &lt;p&gt;Subtítulo&lt;/p&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
 &lt;/header&gt;</div>
+      <div class="usage-note">
+        A faixa azul sempre ocupa 100% da largura. Use <code>.header-inner</code> para conter o conteúdo no mesmo max-width (1200 px) que o corpo da página — assim logo, título e elementos de topo ficam alinhados com o conteúdo abaixo.
+      </div>
     </section>
 
     <!-- ──────────── TABS ──────────── -->
