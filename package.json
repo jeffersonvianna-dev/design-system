@@ -1,6 +1,6 @@
 {
   "name": "@jeffersonvianna-dev/design-system",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Design System — Cactus Tech / SEDUC SP",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -12,7 +12,8 @@
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     },
-    "./css": "./dist/styles.css"
+    "./css": "./dist/styles.css",
+    "./dist/styles.css": "./dist/styles.css"
   },
   "files": [
     "dist",
