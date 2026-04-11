@@ -40,6 +40,23 @@
   --chart-label:   #475569;
   --chart-tick:    #64748b;
 
+  /* Cores derivadas — hover/stroke */
+  --blue-dark:     #004a8f;
+  --green-dark:    #15803d;
+  --red-dark:      #b91c1c;
+  --yellow-dark:   #a16207;
+  --purple-dark:   #7e22ce;
+  --gray-dark:     #334155;
+
+  /* Font-size scale */
+  --fs-xs:    0.69rem;  /* 11px — labels uppercase, badges */
+  --fs-sm:    0.78rem;  /* 12.5px — chips, small text */
+  --fs-base:  0.88rem;  /* 14px — corpo, selects, inputs */
+  --fs-md:    0.95rem;  /* 15px — títulos de card */
+  --fs-lg:    1.05rem;  /* 17px — título de página */
+  --fs-xl:    1.15rem;  /* 18px — header h1 */
+  --fs-hero:  1.3rem;   /* 21px — hero banner */
+
   /* Elevação */
   --shadow-sm:  0 2px 8px rgba(0,0,0,.2);
   --shadow:     0 2px 12px rgba(0,0,0,.08);
@@ -92,28 +109,67 @@ body {
   line-height: 1.5;
 }
 
-/* ─────────────────────────────────────────────
-   COMPONENTES
-───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   REGRAS NORMATIVAS — ANATOMIA DE TELA
 
-/* Header */
+   Toda tela segue esta estrutura vertical obrigatória:
+
+   Camada 1: .c-header       → azul sólido, sticky, logo + título + subtítulo
+   Camada 2: .c-tabs-nav     → azul sólido, SEPARADO do header, tabs de navegação
+   Camada 3: .c-filtros      → branco, filtro-groups com label + select
+   Camada 4: .c-content      → max-width + padding, fundo cinza (--gray)
+
+   REGRAS:
+   - Azul do header → SEMPRE sólido var(--blue), NUNCA gradiente
+   - Tabs → SEMPRE fora do <header>, nunca dentro
+   - Filtros → SEMPRE usar .c-filtro-group (label + select), nunca inline
+   - Código de habilidade/descritor → SEMPRE var(--font-mono) + background sutil
+   - Texto com acento → SEMPRE usar acentos corretos (Matemática, não Matematica)
+   - Cores → SEMPRE via var(--token), NUNCA hex direto fora da :root
+   - Font-size → SEMPRE via var(--fs-*), NUNCA px/rem direto em inline styles
+   - Navegação entre seções → SEMPRE .c-tab-btn (nunca link ou div)
+   - Filtrar dados → SEMPRE .c-filtro-group (label + select)
+   - Status/diagnóstico → SEMPRE .c-status + variante de cor
+═══════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────
+   CAMADA 1: HEADER
+   Azul sólido, sticky, com logo + título + subtítulo
+───────────────────────────────────────────── */
 .c-header {
-  background: var(--blue); color: #fff;
-  padding: 16px 24px; display: flex; align-items: center; gap: 16px;
+  background: var(--blue);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
   box-shadow: var(--shadow-sm);
 }
-.c-header .logo {
+.c-header-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 14px var(--px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.c-header-logo {
   width: 42px; height: 42px; background: #fff; border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 18px; font-weight: 900; color: var(--blue); flex-shrink: 0;
+  font-size: 16px; font-weight: 900; color: var(--blue); flex-shrink: 0;
 }
-.c-header h1 { font-size: 1.15rem; font-weight: 700; }
-.c-header p  { font-size: .78rem; opacity: .85; margin-top: 2px; }
+.c-header h1 { font-size: var(--fs-xl); font-weight: 700; }
+.c-header p  { font-size: var(--fs-sm); opacity: .85; margin-top: 2px; }
 
-/* Tabs */
+/* ─────────────────────────────────────────────
+   CAMADA 2: TABS
+   Azul sólido, SEPARADO do header, padding dinâmico
+───────────────────────────────────────────── */
 .c-tabs-nav {
   background: var(--blue);
-  display: flex; padding: 12px 24px; gap: 8px; overflow-x: auto;
+  display: flex;
+  padding: 12px max(var(--px), calc((100% - var(--max-w)) / 2 + var(--px)));
+  gap: 8px;
+  overflow-x: auto;
 }
 .c-tab-btn {
   padding: 9px 18px; font-size: .85rem; font-weight: 600;
@@ -127,27 +183,132 @@ body {
 .c-tab-btn:hover  { background: rgba(255,255,255,.2); color: #fff; border-color: rgba(255,255,255,.45); }
 .c-tab-btn.active { background: #fff; border-color: #fff; color: var(--blue); }
 
-/* Filtros */
+/* ─────────────────────────────────────────────
+   CAMADA 3: FILTROS
+   Branco, border-bottom, filtro-groups com label + select
+───────────────────────────────────────────── */
 .c-filtros {
-  background: #fff; padding: 18px 24px;
+  background: #fff;
+  padding: 18px max(var(--px), calc((100% - var(--max-w)) / 2 + var(--px)));
   border-bottom: 1px solid var(--gray-mid);
   display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end;
 }
-.c-filtro-group { display: flex; flex-direction: column; gap: 6px; min-width: 150px; }
+.c-filtro-group { display: flex; flex-direction: column; gap: 6px; min-width: 120px; }
 .c-filtro-group label {
-  font-size: .7rem; font-weight: 700; color: var(--text-muted);
-  text-transform: uppercase; letter-spacing: .05em;
+  font-size: var(--fs-xs); font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .05em; white-space: nowrap;
 }
-.c-filtro-group select {
+.c-filtro-group select,
+.c-filtro-group input {
   padding: 9px 32px 9px 12px; border: 1.5px solid var(--gray-mid);
-  border-radius: 8px; font-size: .88rem; color: var(--text); background: #fff;
+  border-radius: 8px; font-size: var(--fs-base); color: var(--text); background: #fff;
   cursor: pointer; appearance: none; font-family: var(--font);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 10px center;
   transition: border-color .2s;
 }
-.c-filtro-group select:focus { outline: none; border-color: var(--blue); }
-.c-filtro-group select:disabled { opacity: .38; cursor: not-allowed; }
+.c-filtro-group input {
+  background-image: none; padding-right: 12px;
+  width: min(220px, 100%);
+}
+.c-filtro-group select:focus,
+.c-filtro-group input:focus { outline: none; border-color: var(--blue); }
+.c-filtro-group select:disabled,
+.c-filtro-group input:disabled { opacity: .38; cursor: not-allowed; }
+
+/* ─────────────────────────────────────────────
+   CAMADA 4: CONTENT
+   Max-width + padding, fundo cinza
+───────────────────────────────────────────── */
+.c-content {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 28px var(--px);
+  width: 100%;
+}
+.c-content-cms {
+  max-width: var(--max-w-cms);
+  margin: 0 auto;
+  padding: 28px var(--px);
+  width: 100%;
+}
+
+/* ─────────────────────────────────────────────
+   LOADING STATE
+───────────────────────────────────────────── */
+.c-loading {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  height: 100vh; gap: var(--sp-4);
+  font-size: var(--fs-base); color: var(--text-muted);
+}
+.c-spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--gray-mid);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: c-spin .8s linear infinite;
+}
+@keyframes c-spin { to { transform: rotate(360deg); } }
+
+/* ─────────────────────────────────────────────
+   CHART CONTAINERS
+───────────────────────────────────────────── */
+.c-chart-wrap {
+  background: #fff; border-radius: var(--radius);
+  padding: var(--sp-6); box-shadow: var(--shadow);
+  border: 1px solid var(--gray-mid);
+}
+.c-chart-legend {
+  display: flex; gap: var(--sp-6); justify-content: center;
+  font-size: var(--fs-sm); font-weight: 600; margin-bottom: var(--sp-4);
+  flex-wrap: wrap;
+}
+.c-chart-tooltip {
+  background: #fff; border: 1px solid var(--gray-mid);
+  border-radius: 8px; padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-sm); max-width: 320px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+}
+
+/* ─────────────────────────────────────────────
+   DETAIL PANEL (expansível dentro de tabela)
+───────────────────────────────────────────── */
+.c-detail-panel {
+  background: #fff;
+  border-top: 1px solid var(--gray-mid);
+  padding: var(--sp-4) var(--sp-5);
+  font-size: var(--fs-base); color: var(--text); line-height: 1.7;
+}
+
+/* ─────────────────────────────────────────────
+   DESCRITOR INFO CARD
+───────────────────────────────────────────── */
+.c-descritor-card {
+  background: var(--gray-light); border: 1px solid var(--gray-mid);
+  border-radius: var(--radius); padding: var(--sp-5) var(--sp-6);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-base); color: var(--text); line-height: 1.6;
+}
+
+/* ─────────────────────────────────────────────
+   SUMMARY CARDS (dashboard)
+───────────────────────────────────────────── */
+.c-summary-cards {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--sp-3); margin-bottom: 28px;
+}
+.c-summary-card {
+  background: #fff; border-radius: var(--radius);
+  padding: 18px var(--sp-5); border-left: 4px solid var(--gray-mid);
+  box-shadow: var(--shadow); transition: box-shadow .18s, transform .18s;
+}
+.c-summary-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.c-summary-count { font-size: 32px; font-weight: 800; }
+.c-summary-label {
+  font-size: var(--fs-xs); font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .05em; margin-top: 4px;
+}
 
 /* Seg toggle */
 .c-seg-toggle { display: flex; gap: 8px; }
@@ -167,11 +328,11 @@ body {
   cursor: pointer; transition: all .18s; white-space: nowrap; line-height: 1.2;
 }
 .c-btn-primary { background: var(--blue); color: #fff; border-color: var(--blue); }
-.c-btn-primary:hover { background: #004a8f; border-color: #004a8f; }
+.c-btn-primary:hover { background: var(--blue-dark); border-color: var(--blue-dark); }
 .c-btn-ghost { background: transparent; color: var(--blue); border-color: var(--blue); }
 .c-btn-ghost:hover { background: var(--blue-pale); }
-.c-btn-danger { background: transparent; color: #dc2626; border-color: #fca5a5; }
-.c-btn-danger:hover { background: #fef2f2; border-color: #dc2626; }
+.c-btn-danger { background: transparent; color: var(--red); border-color: var(--red-light); }
+.c-btn-danger:hover { background: var(--red-light); border-color: var(--red); }
 .c-btn-sm { padding: 6px 14px; font-size: .82rem; }
 .c-btn-icon {
   display: inline-flex; align-items: center; justify-content: center;
@@ -180,7 +341,7 @@ body {
   color: var(--text-muted);
 }
 .c-btn-icon:hover { background: var(--blue-pale); color: var(--blue); }
-.c-btn-icon.danger:hover { background: #fee2e2; color: #dc2626; }
+.c-btn-icon.danger:hover { background: var(--red-light); color: var(--red); }
 
 /* Aula card */
 .c-aula-card {
@@ -435,53 +596,10 @@ body {
 }
 
 /* ─────────────────────────────────────────────
-   BOTÕES EXTRAS (secondary, back)
+   BOTÕES EXTRAS (secondary)
 ───────────────────────────────────────────── */
 .c-btn-secondary { background: var(--chart-label); color: #fff; border-color: var(--chart-label); }
-.c-btn-secondary:hover { background: #334155; border-color: #334155; }
-
-/* ─────────────────────────────────────────────
-   CHART CONTAINERS
-───────────────────────────────────────────── */
-.c-chart-wrap {
-  background: #fff; border-radius: 8px;
-  padding: var(--sp-5); box-shadow: 0 1px 3px rgba(0,0,0,.08);
-}
-.c-chart-legend {
-  display: flex; gap: var(--sp-6); justify-content: center;
-  font-size: .82rem; font-weight: 600; margin-bottom: var(--sp-3);
-  flex-wrap: wrap;
-}
-
-/* ─────────────────────────────────────────────
-   DETAIL CARD (panel expansível)
-───────────────────────────────────────────── */
-.c-detail-card {
-  background: var(--gray-light); border: 1px solid var(--gray-mid);
-  border-radius: 8px; padding: var(--sp-4) var(--sp-5);
-  font-size: .88rem; color: var(--text); line-height: 1.7;
-}
-.c-detail-card-white {
-  background: #fff; border: 1px solid var(--gray-mid);
-  border-radius: 8px; padding: var(--sp-4) var(--sp-5);
-}
-
-/* ─────────────────────────────────────────────
-   SUMMARY CARDS (dashboard)
-───────────────────────────────────────────── */
-.c-summary-cards {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: var(--sp-3); margin-bottom: var(--sp-5);
-}
-.c-summary-card {
-  background: #fff; border-radius: 8px;
-  padding: 14px var(--sp-4); border-left: 4px solid var(--gray-mid);
-}
-.c-summary-count { font-size: 28px; font-weight: 700; }
-.c-summary-label {
-  font-size: .69rem; color: var(--text-muted);
-  text-transform: uppercase; letter-spacing: .05em; margin-top: 2px;
-}
+.c-btn-secondary:hover { background: var(--gray-dark); border-color: var(--gray-dark); }
 
 /* ─────────────────────────────────────────────
    UTILITIES
@@ -502,7 +620,13 @@ body {
   .c-summary-cards { grid-template-columns: repeat(2, 1fr); }
   .grid-2 { grid-template-columns: 1fr; }
   .grid-3 { grid-template-columns: 1fr; }
+  .c-filtros { gap: var(--sp-2); }
+  .c-content, .c-content-cms { padding: var(--sp-4) var(--sp-4); }
+  .c-chart-wrap { padding: var(--sp-4); }
 }
 @media (max-width: 520px) {
   .c-summary-cards { grid-template-columns: 1fr; }
+  .c-content, .c-content-cms { padding: var(--sp-3) var(--sp-3); }
+  .c-header-inner { padding: var(--sp-3); }
+  .c-header p { display: none; }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@jeffersonvianna-dev/design-system",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Design System — Cactus Tech / SEDUC SP",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -15,12 +15,14 @@
     "./css": "./dist/styles.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "scripts"
   ],
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint-ds": "node scripts/lint-ds.mjs"
   },
   "peerDependencies": {
     "react": ">=18",
