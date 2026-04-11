@@ -13,9 +13,24 @@ export const tokens = {
     orangeBorder: '#f5c99a',
     gray: '#f5f6fa',
     grayMid: '#dde2ec',
+    grayLight: '#f1f5f9',
+    grayLighter: '#f8fafc',
     text: '#1a1f36',
     textMuted: '#6b7280',
     green: '#16a34a',
+    red: '#dc2626',
+    yellow: '#ca8a04',
+    purple: '#9333ea',
+    // Status backgrounds
+    redLight: '#fef2f2',
+    greenLight: '#f0fdf4',
+    yellowLight: '#fefce8',
+    purpleLight: '#faf5ff',
+    // Chart / Data viz
+    chartGrid: '#f1f5f9',
+    chartRef: '#94a3b8',
+    chartLabel: '#475569',
+    chartTick: '#64748b',
   },
   shadows: {
     sm: '0 2px 8px rgba(0,0,0,.2)',
@@ -37,8 +52,24 @@ export const tokens = {
     px: '24px',
     /** max-width do guia público */
     maxWidthGuia: '1100px',
-    /** max-width do CMS */
+    /** max-width do CMS / dashboard */
     maxWidthCms: '1200px',
+    /** Escala de espaçamento (base 4px) */
+    sp1: '4px',
+    sp2: '8px',
+    sp3: '12px',
+    sp4: '16px',
+    sp5: '20px',
+    sp6: '24px',
+    sp8: '32px',
+    sp12: '48px',
+  },
+  zIndex: {
+    base: 0,
+    dropdown: 100,
+    sticky: 200,
+    modal: 300,
+    toast: 400,
   },
 } as const
 

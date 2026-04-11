@@ -20,6 +20,25 @@
   --blue-border:   #c0d9f0;
   --orange-border: #f5c99a;
   --green:         #16a34a;
+  --red:           #dc2626;
+  --yellow:        #ca8a04;
+  --purple:        #9333ea;
+
+  /* Fundos claros de status */
+  --red-light:     #fef2f2;
+  --green-light:   #f0fdf4;
+  --yellow-light:  #fefce8;
+  --purple-light:  #faf5ff;
+
+  /* Neutros extras */
+  --gray-light:    #f1f5f9;
+  --gray-lighter:  #f8fafc;
+
+  /* Chart/Data viz */
+  --chart-grid:    #f1f5f9;
+  --chart-ref:     #94a3b8;
+  --chart-label:   #475569;
+  --chart-tick:    #64748b;
 
   /* Elevação */
   --shadow-sm:  0 2px 8px rgba(0,0,0,.2);
@@ -35,6 +54,32 @@
   /* Tipografia */
   --font: 'Segoe UI', system-ui, sans-serif;
   --font-mono: monospace;
+
+  /* Espaçamento (escala 4px) */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-12: 48px;
+  --px:    24px;  /* padding horizontal padrão */
+
+  /* Layout */
+  --max-w:      1100px;
+  --max-w-cms:  1200px;
+
+  /* Z-index scale */
+  --z-base:     0;
+  --z-dropdown: 100;
+  --z-sticky:   200;
+  --z-modal:    300;
+  --z-toast:    400;
+
+  /* Opacidade */
+  --opacity-disabled: 0.5;
+  --opacity-hover:    0.08;
 }
 
 /* ─── Reset & Base ─── */
@@ -332,3 +377,132 @@ body {
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
 .flex-wrap { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+/* ─────────────────────────────────────────────
+   TABELA DE DADOS
+───────────────────────────────────────────── */
+
+/* Wrapper com overflow para responsividade */
+.c-data-table-wrap {
+  background: #fff; border-radius: 8px;
+  overflow-x: auto; box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+.c-data-table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  font-size: .88rem;
+}
+.c-data-table th {
+  background: var(--blue-pale); color: var(--blue);
+  padding: 10px 12px; text-align: left;
+  font-size: .69rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .05em; white-space: nowrap;
+}
+.c-data-table td {
+  padding: 10px 14px; border-bottom: 1px solid var(--gray);
+  vertical-align: top; color: var(--text);
+}
+.c-data-table tr:last-child td { border-bottom: none; }
+.c-data-table tr:hover td { background: var(--gray); }
+.c-data-table tr.expanded td { background: var(--blue-pale); }
+.c-data-table .clickable { cursor: pointer; }
+
+/* ─────────────────────────────────────────────
+   STATUS BADGES (diagnóstico)
+───────────────────────────────────────────── */
+.c-status { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: .69rem; font-weight: 600; white-space: nowrap; }
+.c-status-red     { background: var(--red-light);    color: var(--red); }
+.c-status-orange  { background: var(--orange-light); color: var(--orange); }
+.c-status-yellow  { background: var(--yellow-light); color: var(--yellow); }
+.c-status-purple  { background: var(--purple-light); color: var(--purple); }
+.c-status-blue    { background: var(--blue-pale);    color: var(--blue); }
+.c-status-green   { background: var(--green-light);  color: var(--green); }
+
+/* ─────────────────────────────────────────────
+   BARRA DE PORCENTAGEM
+───────────────────────────────────────────── */
+.c-pct-bar-wrap {
+  width: 100%; max-width: 120px; height: 20px;
+  background: var(--gray-light); border-radius: 4px;
+  overflow: hidden; position: relative;
+}
+.c-pct-bar { height: 100%; border-radius: 4px; transition: width .3s; }
+.c-pct-bar-red    { background: var(--red); }
+.c-pct-bar-yellow { background: var(--yellow); }
+.c-pct-bar-green  { background: var(--green); }
+.c-pct-label {
+  position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+  font-size: .69rem; font-weight: 600; color: var(--text);
+}
+
+/* ─────────────────────────────────────────────
+   BOTÕES EXTRAS (secondary, back)
+───────────────────────────────────────────── */
+.c-btn-secondary { background: var(--chart-label); color: #fff; border-color: var(--chart-label); }
+.c-btn-secondary:hover { background: #334155; border-color: #334155; }
+
+/* ─────────────────────────────────────────────
+   CHART CONTAINERS
+───────────────────────────────────────────── */
+.c-chart-wrap {
+  background: #fff; border-radius: 8px;
+  padding: var(--sp-5); box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+.c-chart-legend {
+  display: flex; gap: var(--sp-6); justify-content: center;
+  font-size: .82rem; font-weight: 600; margin-bottom: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+/* ─────────────────────────────────────────────
+   DETAIL CARD (panel expansível)
+───────────────────────────────────────────── */
+.c-detail-card {
+  background: var(--gray-light); border: 1px solid var(--gray-mid);
+  border-radius: 8px; padding: var(--sp-4) var(--sp-5);
+  font-size: .88rem; color: var(--text); line-height: 1.7;
+}
+.c-detail-card-white {
+  background: #fff; border: 1px solid var(--gray-mid);
+  border-radius: 8px; padding: var(--sp-4) var(--sp-5);
+}
+
+/* ─────────────────────────────────────────────
+   SUMMARY CARDS (dashboard)
+───────────────────────────────────────────── */
+.c-summary-cards {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--sp-3); margin-bottom: var(--sp-5);
+}
+.c-summary-card {
+  background: #fff; border-radius: 8px;
+  padding: 14px var(--sp-4); border-left: 4px solid var(--gray-mid);
+}
+.c-summary-count { font-size: 28px; font-weight: 700; }
+.c-summary-label {
+  font-size: .69rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .05em; margin-top: 2px;
+}
+
+/* ─────────────────────────────────────────────
+   UTILITIES
+───────────────────────────────────────────── */
+.u-mono { font-family: var(--font-mono); }
+.u-uppercase { text-transform: uppercase; letter-spacing: .05em; }
+.u-muted { color: var(--text-muted); }
+.u-center { text-align: center; }
+.u-bold { font-weight: 600; }
+.u-text-sm { font-size: .82rem; }
+.u-text-xs { font-size: .69rem; }
+
+/* ─────────────────────────────────────────────
+   RESPONSIVIDADE
+───────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .c-aula-grid { grid-template-columns: 1fr; }
+  .c-summary-cards { grid-template-columns: repeat(2, 1fr); }
+  .grid-2 { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .c-summary-cards { grid-template-columns: 1fr; }
+}
